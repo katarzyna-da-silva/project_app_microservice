@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: role_vpc
+rules:
+- apiGroups: [""]
+  resources: ["vpcs", "subnets", "securitygroups", "networkinterfaces"]
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ebs-csi-controller-sa-binding
+subjects:
+- kind: ServiceAccount
+  name: ebs-csi-controller-sa
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: role_vpc
+  apiGroup: rbac.authorization.k8s.io

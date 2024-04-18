@@ -1,0 +1,52 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kube-system
+  name: ebs-csi-driver-role
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "patch"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["nodes/proxy"]
+  verbs: ["list", "get"]
+- apiGroups: [""]
+  resources: ["services/proxy"]
+  verbs: ["list", "get"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ebs-csi-driver-role-binding
+  namespace: kube-system
+subjects:
+- kind: ServiceAccount
+  name: ebs-csi-controller-sa
+  namespace: kube-system
+roleRef:
+  kind: Role
+  name: ebs-csi-driver-role
+  apiGroup: rbac.authorization.k8s.io

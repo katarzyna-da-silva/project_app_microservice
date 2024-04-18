@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ebs-csi-driver-role-policy
+  namespace: kube-system
+data:
+  policy.json: |
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "sts:AssumeRoleWithWebIdentity"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "ec2:CreateVolume"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
