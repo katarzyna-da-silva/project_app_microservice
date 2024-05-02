@@ -6,8 +6,8 @@ spec:
   selector:
     matchLabels:
       app: queue
-  replicas: 1
-  template: # template for the pods
+  replicas : 1                           # simulation de panne pour vérifier la panne replicas: 0
+  template: 
     metadata:
       labels:
         app: queue
