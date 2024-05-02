@@ -153,16 +153,66 @@ aws eks describe-cluster --name your_cluster_name --query "cluster.identity.oidc
 
 ````
 
-## elastic-stack installation:
+## Elastic-stack installation:
 
 https://github.com/kubernetes/kubernetes/tree/master/cluster/addons
 
 kubectl apply -f fluentd-daemonset.yaml
 kubectl apply -f elasticsearch-statefulset.yaml
 kubectl apply -f kibana-deployment.yaml
-access Kibana DashBoard :  kubectl get svc -n kube-system
-## prometheus and grafana installation:
+* Access Kibana DashBoard :  kubectl get svc -n kube-system
 
-## create slack alert:
+## Prometheus and grafana installation:
+
+kubectl get po -n monitoring
+kubectl get svc -n monitoring
+
+- Connection with tools : 
+
+kubectl edit svc -n monitoring monitoring-kube-prometheus-prometheus edit file monitoring : cluster - loadbalancer
+
+
+## Slack Alert - alertmanager:
+
+- Installing slack for alerts
+
+Create Incoming Webhook in Slack:
+Log in to your Slack workspace.
+Navigate to "Apps" and search for "Incoming Webhooks".
+Click on "Add to Slack" and choose the channel where you want to receive alerts.
+Copy the generated webhook URL.
+
+- Configure alertmanager : 
+
+kubectl create secret generic alertmanager-config --from-file=alertmanager.yaml -n <namespace>
+kubectl get secret -n <namespace>
+kubectl delete pod -n <namespace> -l app.kubernetes.io/component=alertmanager
+curl -X POST --data-urlencode "payload={\"text\": \"This is a test alert from AlertManager.\"}" <Slack_Webhook_URL>
+
+
 
 ## HELM : 
+
+* Installing Helm Chart
+* Helm package manager.
+
+- Add Helm Repository:
+
+If the Helm chart is hosted in a repository, add the repository to Helm:
+
+helm repo add <repository_name> <repository_url>
+
+Update Helm Repositories:
+
+Update the list of Helm repositories to fetch the latest charts:
+
+helm repo update
+
+helm search repo <chart_name>
+
+Install Helm Chart:
+Install the Helm chart using the helm install command:
+
+helm install <release_name> <chart_name> --namespace <namespace> --values <values_file>
+
+helm list -n <namespace>
