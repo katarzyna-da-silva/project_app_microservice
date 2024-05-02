@@ -64,9 +64,9 @@ aws sts get-caller-identity --profile my_profile
 ````
  The most important elements in the Terraform configuration files for running an EKS cluster are:
 
-     EKS cluster configuration: In files such as sek-cluster.tf, you must define key cluster parameters such as name, version, network configuration, etc.
+     EKS cluster configuration: In files such as eks-cluster.tf, you must define key cluster parameters such as name, version, network configuration, etc.
 
-     Node configuration: In the sek-node-group-public.tf and sek-node-private.tf files, define groups of public and private nodes that will host our applications and microservices.
+     Node configuration: In the eks-node-group-public.tf and eks-node-private.tf files, define groups of public and private nodes that will host our applications and microservices.
 
      VPC configuration: In the vpc.tf file, define the Virtual Private Cloud (VPC) and basic network parameters, such as public and private subnets.
 
