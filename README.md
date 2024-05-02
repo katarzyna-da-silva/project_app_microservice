@@ -155,6 +155,12 @@ aws eks describe-cluster --name your_cluster_name --query "cluster.identity.oidc
 
 ## elastic-stack installation:
 
+https://github.com/kubernetes/kubernetes/tree/master/cluster/addons
+
+kubectl apply -f fluentd-daemonset.yaml
+kubectl apply -f elasticsearch-statefulset.yaml
+kubectl apply -f kibana-deployment.yaml
+access Kibana DashBoard :  kubectl get svc -n kube-system
 ## prometheus and grafana installation:
 
 ## create slack alert:
