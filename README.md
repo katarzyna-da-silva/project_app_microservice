@@ -153,3 +153,10 @@ aws eks describe-cluster --name your_cluster_name --query "cluster.identity.oidc
 
 ````
 
+## elastic-stack installation:
+
+## prometheus and grafana installation:
+
+## create slack alert:
+
+## HELM : 
