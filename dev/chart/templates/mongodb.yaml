@@ -18,15 +18,20 @@ spec:
         volumeMounts:
           - name: mongo-persistent-storage
             mountPath: /data/db
+        resources: 
+          requests: 
+            memory: 400Mi
+            cpu: 100m
       volumes:
         - name: mongo-persistent-storage
-          persistentVolumeClaim:
-            claimName: mongo-pvc-new
+          hostPath:    # données stockées en dehors du pod si kubectl est supprimé
+           path: /mnt/some/directory/structure/     # for vm minikube 
+           type: DirectoryOrCreate
 
 ---
 
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: fleetman-mongodb
 spec:
