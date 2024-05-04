@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: queue
-  replicas: 2
+  replicas: 3
   template: # template for the pods
     metadata:
       labels:
@@ -22,3 +22,35 @@ spec:
           limits:
             memory: 500Mi
             cpu: 200m
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  replicas: 5
+  template: # template for the pods
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: richardchesterwood/k8s-fleetman-api-gateway:performance
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        resources:
+          requests:
+            memory: 800Mi
+            cpu: 50m

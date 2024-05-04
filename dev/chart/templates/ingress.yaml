@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: routing
+spec: 
+  rules:
+    - host: domain.com
+      http:
+        path: /
+          backend:
+            serviceName: fleetman-webapp
+            servicePort: 80
+    - host: queque.domain.com
+      http:
+        path: /
+          backend:
+            serviceName: fleetman-webapp
+            servicePort: 8161
+
