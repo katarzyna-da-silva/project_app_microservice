@@ -1,103 +1,103 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
 metadata:
-  name: queue
+  name: {{ .Values.appNameQ }}-deployment
 spec:
   selector:
     matchLabels:
-      app: queue
-  replicas : 1                           # simulation de panne pour vérifier la panne replicas: 0
+      app: {{ .Values.appNameQ }}
+  replicas : {{ .Values.replicaCount }}                           # simulation de panne pour vérifier la panne replicas: 0
   template: 
     metadata:
       labels:
-        app: queue
+        app: {{ .Values.appNameQ }}
     spec:
       containers:
-      - name: queue
-        image: richardchesterwood/k8s-fleetman-queue:release2
+      - name: {{ .Values.appNameQ }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
 metadata:
-  name: position-simulator
+  name: {{ .Values.appNameS }}-deployment
 spec:
   selector:
     matchLabels:
-      app: position-simulator
-  replicas: 1
+      app: {{ .Values.appNameS }}
+  replicas: {{ .Values.replicaCount }} 
   template: # template for the pods
     metadata:
       labels:
-        app: position-simulator
+        app: {{ .Values.appNameS }}
     spec:
       containers:
-      - name: position-simulator
-        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+      - name: {{ .Values.appNameS }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-position-simulator:release2
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
 
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
 metadata:
-  name: position-tracker
+  name: {{ .Values.appNameT }}-deployment
 spec:
   selector:
     matchLabels:
-      app: position-tracker
-  replicas: 1
+      app: {{ .Values.appNameT }}
+  replicas: {{ .Values.replicaCount }} 
   template: # template for the pods
     metadata:
       labels:
-        app: position-tracker
+        app: {{ .Values.appNameT }}
     spec:
       containers:
-      - name: position-tracker
-        image: richardchesterwood/k8s-fleetman-position-tracker:release3
+      - name: {{ .Values.appNameT }}-container
+        image: r{{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-position-tracker:release3
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
 metadata:
-  name: api-gateway
+  name: {{ .Values.appNameA }}-deployment
 spec:
   selector:
     matchLabels:
-      app: api-gateway
-  replicas: 1
+      app: {{ .Values.appNameA }}
+  replicas: {{ .Values.replicaCount }} 
   template: # template for the pods
     metadata:
       labels:
-        app: api-gateway
+        app: {{ .Values.appNameA }}
     spec:
       containers:
-      - name: api-gateway
-        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+      - name: {{ .Values.appNameA }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-api-gateway:release2
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
 
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
 metadata:
-  name: webapp
+  name: {{ .Values.appNameW }}-deployment
 spec:
   selector:
     matchLabels:
-      app: webapp
-  replicas: 1
+      app: {{ .Values.appNameW }}
+  replicas: {{ .Values.replicaCount }} 
   template: # template for the pods
     metadata:
       labels:
-        app: webapp
+        app: {{ .Values.appNameW }}
     spec:
       containers:
-      - name: webapp
-        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+      - name: {{ .Values.appNameW }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-webapp-angular:release2
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
