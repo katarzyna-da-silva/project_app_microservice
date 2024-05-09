@@ -1,0 +1,21 @@
+dockerRepoName: richardchesterwood
+appVersion: apps/v1
+kindName: Deployment
+replicaCount: 1
+appNameQ: queue
+resources:
+  containerMemory: 400Mi
+  containerCPU: 200m
+appNameS: position-simulator
+appNameT: position-tracker
+appNameA: api-gateway
+appNameW: webapp
+env:
+  envName: SPRING_PROFILES_ACTIVE
+  envValue: production-microservice
+portTypeN: NodePort
+portTypeC: ClusterIP
+portName: http
+kindNameSvc: Service
+versionSvc: v1
+dbName: mongodb
