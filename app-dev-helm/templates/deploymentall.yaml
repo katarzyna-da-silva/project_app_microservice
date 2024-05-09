@@ -1,0 +1,122 @@
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.appNameQ }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appNameQ }}
+  replicas: {{ .Values.replicaCount }}
+  template: # template for the pods
+    metadata:
+      labels:
+        app: {{ .Values.appNameQ }}
+    spec:
+      containers:
+      - name: {{ .Values.appNameQ }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2
+        resources:
+          requests:
+            memory: {{ .Values.resources.containerMemory }}
+            cpu: {{ .Values.resources.containerCPU }}
+---
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.appNameS }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appNameS }}
+  replicas: {{ .Values.replicaCount }}
+  template: # template for the pods
+    metadata:
+      labels:
+        app: {{ .Values.appNameS }}
+    spec:
+      containers:
+      - name: {{ .Values.appNameS }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-position-simulator:release2
+        env:
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
+        resources:
+          requests:
+            memory: 600Mi
+            cpu: 600m
+
+---
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.appNameT }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appNameT }}
+  replicas: {{ .Values.replicaCount }}
+  template: # template for the pods
+    metadata:
+      labels:
+        app: {{ .Values.appNameT }}
+    spec:
+      containers:
+      - name: {{ .Values.appNameT }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-position-tracker:release3
+        env:
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
+        resources:
+          requests:
+            memory: 600Mi
+            cpu: 50m
+---
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.appNameA }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appNameA }}
+  replicas: {{ .Values.replicaCount }}
+  template: # template for the pods
+    metadata:
+      labels:
+        app: {{ .Values.appNameA }}
+    spec:
+      containers:
+      - name: {{ .Values.appNameA }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-api-gateway:release2
+        env:
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
+        resources:
+          requests:
+            memory: 1000Mi
+            cpu: 50m
+---
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.appNameW }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appNameW }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appNameW }}
+    spec:
+      containers:
+      - name: {{ .Values.appNameW }}-container
+        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-webapp-angular:release2
+        env:
+        - name: {{ .Values.env.envName }}
+          value: {{ .Values.env.envValue }}
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 50m

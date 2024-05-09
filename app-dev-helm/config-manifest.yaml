@@ -1,0 +1,253 @@
+---
+# Source: app-dev-helm/templates/mongodb.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: fleetman-mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - name: mongoport
+      port: 27017
+  type: ClusterIP
+---
+# Source: app-dev-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-webapp
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: webapp
+
+  ports:
+    - name:  http
+      port: 80
+      nodePort: 30081
+
+  type: NodePort
+---
+# Source: app-dev-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: queue
+
+  ports:
+    - name: http
+      port: 8160
+      nodePort: 30010
+
+    - name: endpoint
+      port: 61616
+
+  type: NodePort
+---
+# Source: app-dev-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: position-tracker
+
+  ports:
+    - name: http
+      port: 8080
+
+  type: ClusterIP
+---
+# Source: app-dev-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-api-gateway
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: api-gateway
+
+  ports:
+    - name: http
+      port: 8080
+      nodePort: 30020
+
+  type: NodePort
+---
+# Source: app-dev-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-deployment
+spec:
+  selector:
+    matchLabels:
+      app: queue
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: queue
+    spec:
+      containers:
+      - name: queue-container
+        image: richardchesterwood/k8s-fleetman-queue:release2
+        resources:
+          requests:
+            memory: 400Mi
+            cpu: 200m
+---
+# Source: app-dev-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: position-simulator-deployment
+spec:
+  selector:
+    matchLabels:
+      app: position-simulator
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: position-simulator
+    spec:
+      containers:
+      - name: position-simulator-container
+        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        resources:
+          requests:
+            memory: 600Mi
+            cpu: 600m
+---
+# Source: app-dev-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: position-tracker-deployment
+spec:
+  selector:
+    matchLabels:
+      app: position-tracker
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: position-tracker
+    spec:
+      containers:
+      - name: position-tracker-container
+        image: richardchesterwood/k8s-fleetman-position-tracker:release3
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        resources:
+          requests:
+            memory: 600Mi
+            cpu: 50m
+---
+# Source: app-dev-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway-container
+        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        resources:
+          requests:
+            memory: 1000Mi
+            cpu: 50m
+---
+# Source: app-dev-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp-container
+        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 50m
+---
+# Source: app-dev-helm/templates/mongodb.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:3.6.23
+        volumeMounts:
+          - name: mongo-persistent-storage
+            mountPath: /data/db
+        resources: 
+          requests: 
+            memory: 400Mi
+            cpu: 100m
+      volumes:
+        - name: mongo-persistent-storage
+          hostPath:    # données stockées en dehors du pod si kubectl est supprimé
+           path: /mnt/some/directory/structure/     # for vm minikube 
+           type: DirectoryOrCreate

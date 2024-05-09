@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-webapp
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: {{ .Values.webapp.numberOfWebReplicas }}
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        {{- include "webappImage" . }}
+      env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+      resources:
+        requests:
+          memory: 100Mi
+          cpu: 50m
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-fleetman-webapp
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: webapp
+
+  ports:
+    - name: http
+      port: 80
+      nodePort: {{ .Values.webapp.NodePort}}
+
+  type: NodePort

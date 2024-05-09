@@ -1,0 +1,79 @@
+apiVersion: {{ .Values.versionSvc }}
+kind: {{ .Values.kindNameSvc }}
+metadata:
+  name: fleetman-webapp
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: {{ .Values.appNameW }}
+
+  ports:
+    - name:  {{ .Values.portName }}
+      port: 80
+      nodePort: 30081
+
+  type: {{ .Values.portTypeN }}
+---
+apiVersion: {{ .Values.versionSvc }}
+kind: {{ .Values.kindNameSvc }}
+metadata:
+  name: fleetman-queue
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: {{ .Values.appNameQ }}
+
+  ports:
+    - name: {{ .Values.portName }}
+      port: 8160
+      nodePort: 30010
+
+    - name: endpoint
+      port: 61616
+
+  type: {{ .Values.portTypeN }}
+
+---
+apiVersion: {{ .Values.versionSvc }}
+kind: {{ .Values.kindNameSvc }}
+metadata:
+  name: fleetman-position-tracker
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: {{ .Values.appNameT }}
+
+  ports:
+    - name: {{ .Values.portName }}
+      port: 8080
+
+  type: {{ .Values.portTypeC }}
+
+---
+apiVersion: {{ .Values.versionSvc }}
+kind: {{ .Values.kindNameSvc }}
+metadata:
+  name: fleetman-api-gateway
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: {{ .Values.appNameA }}
+
+  ports:
+    - name: {{ .Values.portName }}
+      port: 8080
+      nodePort: 30020
+
+  type: {{ .Values.portTypeN }}

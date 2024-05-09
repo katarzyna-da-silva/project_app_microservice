@@ -1,0 +1,43 @@
+apiVersion: {{ .Values.appVersion }}
+kind: {{ .Values.kindName }}
+metadata:
+  name: {{ .Values.dbName }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.dbName }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.dbName }}
+    spec:
+      containers:
+      - name: {{ .Values.dbName }}
+        image: mongo:3.6.23
+        volumeMounts:
+          - name: mongo-persistent-storage
+            mountPath: /data/db
+        resources: 
+          requests: 
+            memory: 400Mi
+            cpu: 100m
+      volumes:
+        - name: mongo-persistent-storage
+          hostPath:    # données stockées en dehors du pod si kubectl est supprimé
+           path: /mnt/some/directory/structure/     # for vm minikube 
+           type: DirectoryOrCreate
+
+---
+
+kind: {{ .Values.kindNameSvc }}
+apiVersion: {{ .Values.versionSvc }}
+metadata:
+  name: fleetman-mongodb
+spec:
+  selector:
+    app: {{ .Values.dbName }}
+  ports:
+    - name: mongoport
+      port: 27017
+  type: {{ .Values.portTypeC }}
