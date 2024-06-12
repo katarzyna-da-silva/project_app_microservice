@@ -1,3 +1,5 @@
+---
+# déploiement pour le service Queue
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -15,7 +17,9 @@ spec:
       containers:
       - name: {{ .Values.appNameQ }}-container
         image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2
+
 ---
+# déploiement pour le service Position Simulator
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -38,6 +42,7 @@ spec:
           value: {{ .Values.env.envValue }}
 
 ---
+# déploiement pour le service Position Tracker
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -58,7 +63,9 @@ spec:
         env:
         - name: {{ .Values.env.envName }}
           value: {{ .Values.env.envValue }}
+
 ---
+# déploiement pour le service API Gateway
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -81,6 +88,7 @@ spec:
           value: {{ .Values.env.envValue }}
 
 ---
+# déploiement pour le service Webapp
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:

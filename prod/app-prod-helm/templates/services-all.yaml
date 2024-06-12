@@ -1,3 +1,4 @@
+# Service pour fleetman-webapp
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
@@ -11,7 +12,10 @@ spec:
     - name: {{ .Values.portName }}
       port: 80
   type: LoadBalancer
+
 ---
+
+# Service pour fleetman-queue
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
@@ -30,7 +34,10 @@ spec:
 
   type: {{ .Values.portTypeC }}
 
+
 ---
+
+# Service pour fleetman-position-tracker
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
@@ -47,6 +54,8 @@ spec:
   type: {{ .Values.portTypeC }}
 
 ---
+
+# Service pour fleetman-api-gateway
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
