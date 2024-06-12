@@ -1,25 +1,31 @@
-apiVersion: {{ .Values.appVersion }}
-kind: {{ .Values.kindName }}
+# Configuration pour les déploiements Kubernetes
+
+# Définition du premier déploiement
+apiVersion: {{ .Values.appVersion }}  # Version de l'API Kubernetes
+kind: {{ .Values.kindName }}  # Type de ressource, par exemple, "Deployment"
 metadata:
-  name: {{ .Values.appNameQ }}-deployment
+  name: {{ .Values.appNameQ }}-deployment # Nom du déploiement
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.appNameQ }}
-  replicas: {{ .Values.replicaCount }}
+      app: {{ .Values.appNameQ }}  # Étiquette utilisée pour sélectionner les pods
+  replicas: {{ .Values.replicaCount }}  # Nombre de réplicas
   template: # template for the pods
     metadata:
       labels:
-        app: {{ .Values.appNameQ }}
+        app: {{ .Values.appNameQ }}  # Étiquette pour les pods
     spec:
       containers:
-      - name: {{ .Values.appNameQ }}-container
-        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2
+      - name: {{ .Values.appNameQ }}-container  # Nom du conteneur
+        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2  # Image Docker à utiliser
         resources:
           requests:
-            memory: {{ .Values.resources.containerMemory }}
-            cpu: {{ .Values.resources.containerCPU }}
+            memory: {{ .Values.resources.containerMemory }}  # Quantité de mémoire demandée
+            cpu: {{ .Values.resources.containerCPU }}  # Quantité de CPU demandée
+
 ---
+
+# Définition du deuxième déploiement
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -46,6 +52,8 @@ spec:
             cpu: 600m
 
 ---
+
+# Définition du troisième déploiement
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -70,7 +78,11 @@ spec:
           requests:
             memory: 600Mi
             cpu: 50m
+
 ---
+
+# Définition du quatrième déploiement
+
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:
@@ -95,7 +107,10 @@ spec:
           requests:
             memory: 1000Mi
             cpu: 50m
+
 ---
+
+# Définition du cinquième déploiement
 apiVersion: {{ .Values.appVersion }}
 kind: {{ .Values.kindName }}
 metadata:

@@ -1,12 +1,12 @@
 # What do want?
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: v1   #Version de l'API pour la PersistentVolumeClaim.
+kind: PersistentVolumeClaim   #Type de ressource Kubernetes, qui est une PersistentVolumeClaim.
 metadata:
   name: mongo-pvc
 spec:
-  storageClassName: mylocalstorage
+  storageClassName: mylocalstorage # Nom de la classe de stockage qui définit la manière dont les données seront stockées
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce # volume peut être monté sur un seul nœud en lecture et écriture
   resources:
     requests:
       storage: 20Gi

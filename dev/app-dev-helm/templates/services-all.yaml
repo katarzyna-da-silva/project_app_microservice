@@ -1,31 +1,28 @@
-apiVersion: {{ .Values.versionSvc }}
-kind: {{ .Values.kindNameSvc }}
+# Service pour fleetman-webapp
+apiVersion: {{ .Values.versionSvc }} # Version de l'API pour le service
+kind: {{ .Values.kindNameSvc }} # Type de ressource, ici un Service
 metadata:
-  name: fleetman-webapp
+  name: fleetman-webapp # Nom du service
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
-    app: {{ .Values.appNameW }}
+    app: {{ .Values.appNameW }}  # Label pour sélectionner les pods
 
-  ports:
+  ports: # Nom du port
     - name:  {{ .Values.portName }}
-      port: 80
-      nodePort: 30081
+      port: 80 # Port exposé par le service
+      nodePort: 30081  # NodePort pour l'accès externe (type NodePort requis)
 
   type: {{ .Values.portTypeN }}
+
 ---
+# Service pour fleetman-queue
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
   name: fleetman-queue
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameQ }}
 
@@ -40,15 +37,13 @@ spec:
   type: {{ .Values.portTypeN }}
 
 ---
+# Service pour fleetman-position-tracker
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
   name: fleetman-position-tracker
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameT }}
 
@@ -59,15 +54,13 @@ spec:
   type: {{ .Values.portTypeC }}
 
 ---
+# Service pour fleetman-api-gateway
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
   name: fleetman-api-gateway
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameA }}
 

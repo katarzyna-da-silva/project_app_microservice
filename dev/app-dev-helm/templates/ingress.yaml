@@ -1,19 +1,21 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+# Configuration pour l'Ingress
+
+apiVersion: extensions/v1beta1 # Version de l'API pour Ingress
+kind: Ingress # Type de ressource, ici un Ingress
 metadata:
-  name: routing
+  name: routing # Nom de l'Ingress
 spec: 
   rules:
-    - host: domain.com
+    - host: domain.com # Hôte pour la règle
       http:
-        path: /
+        path: / # Chemin pour la règle HTTP
           backend:
-            serviceName: fleetman-webapp
-            servicePort: 80
-    - host: queque.domain.com
+            serviceName: fleetman-webapp # Nom du service backend
+            servicePort: 80 # Port du service backend
+    - host: queque.domain.com # Hôte pour la deuxième règle
       http:
-        path: /
+        path: / # Chemin pour la deuxième règle HTTP
           backend:
-            serviceName: fleetman-webapp
-            servicePort: 8161
+            serviceName: fleetman-webapp # Nom du service backend
+            servicePort: 8161 # Port du service backend
 

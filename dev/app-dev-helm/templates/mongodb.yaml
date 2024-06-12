@@ -1,12 +1,14 @@
-apiVersion: {{ .Values.appVersion }}
-kind: {{ .Values.kindName }}
+# Configuration pour le déploiement MongoDB
+
+apiVersion: {{ .Values.appVersion }}  # Version de l'API pour le déploiement
+kind: {{ .Values.kindName }}  # Type de ressource, ici un Déploiement
 metadata:
-  name: {{ .Values.dbName }}-deployment
+  name: {{ .Values.dbName }}-deployment  # Nom du déploiement
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.dbName }}
-  replicas: 1
+      app: {{ .Values.dbName }}  # Label pour sélectionner les pods
+  replicas: 1  # Nombre de réplicas (pods)
   template:
     metadata:
       labels:
@@ -14,10 +16,10 @@ spec:
     spec:
       containers:
       - name: {{ .Values.dbName }}
-        image: mongo:3.6.23
+        image: mongo:3.6.23  # Image Docker à utiliser pour le conteneur
         volumeMounts:
-          - name: mongo-persistent-storage
-            mountPath: /data/db
+          - name: mongo-persistent-storage  # Nom du volume monté
+            mountPath: /data/db  # Chemin de montage du volume dans le conteneur
         resources: 
           requests: 
             memory: 400Mi
@@ -26,18 +28,19 @@ spec:
         - name: mongo-persistent-storage
           hostPath:    # données stockées en dehors du pod si kubectl est supprimé
            path: /mnt/some/directory/structure/     # for vm minikube 
-           type: DirectoryOrCreate
+           type: DirectoryOrCreate  # Crée le répertoire s'il n'existe pas
 
 ---
 
-kind: {{ .Values.kindNameSvc }}
-apiVersion: {{ .Values.versionSvc }}
+# Configuration pour le service MongoDB
+kind: {{ .Values.kindNameSvc }}  # Type de ressource, ici un Service
+apiVersion: {{ .Values.versionSvc }}  # Version de l'API pour le service
 metadata:
-  name: fleetman-mongodb
+  name: fleetman-mongodb  # Nom du service
 spec:
   selector:
-    app: {{ .Values.dbName }}
+    app: {{ .Values.dbName }}  # Label pour sélectionner les pods
   ports:
-    - name: mongoport
-      port: 27017
-  type: {{ .Values.portTypeC }}
+    - name: mongoport  # Nom du port
+      port: 27017  # Port exposé par le service
+  type: {{ .Values.portTypeC }}  # Type du service (ClusterIP, NodePort, LoadBalancer)
