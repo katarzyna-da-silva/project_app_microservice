@@ -4,9 +4,6 @@ metadata:
   name: fleetman-webapp
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameW }}
 
@@ -21,9 +18,6 @@ metadata:
   name: fleetman-queue
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameQ }}
 
@@ -43,9 +37,6 @@ metadata:
   name: fleetman-position-tracker
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameT }}
 
@@ -62,9 +53,6 @@ metadata:
   name: fleetman-api-gateway
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: {{ .Values.appNameA }}
 
