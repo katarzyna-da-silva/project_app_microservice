@@ -20,6 +20,7 @@ minikube start
 minikube ip 
 kubectl apply -f config-manifest.yaml
 kubectl get all ( service - ports )
+ip:port
 
 ````
 
