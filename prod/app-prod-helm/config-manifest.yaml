@@ -1,0 +1,246 @@
+---
+# Source: app-prod-helm/templates/storage.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: cloud-ssd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+---
+# Source: app-prod-helm/templates/storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  storageClassName: cloud-ssd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+# Source: app-prod-helm/templates/mongo.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - name: mongoport
+      port: 27017
+  type: ClusterIP
+---
+# Source: app-prod-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-webapp
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: webapp
+
+  ports:
+    - name: http
+      port: 80
+  type: LoadBalancer
+---
+# Source: app-prod-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: queue
+
+  ports:
+    - name: http
+      port: 8161
+
+    - name: endpoint
+      port: 61616
+
+  type: ClusterIP
+---
+# Source: app-prod-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: position-tracker
+
+  ports:
+    - name: http
+      port: 8080
+
+  type: ClusterIP
+---
+# Source: app-prod-helm/templates/services-all.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-api-gateway
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: api-gateway
+
+  ports:
+    - name: http
+      port: 8080
+
+  type: ClusterIP
+---
+# Source: app-prod-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-deployment
+spec:
+  selector:
+    matchLabels:
+      app: queue
+  replicas : 1                           # simulation de panne pour vérifier la panne replicas: 0
+  template: 
+    metadata:
+      labels:
+        app: queue
+    spec:
+      containers:
+      - name: queue-container
+        image: richardchesterwood/k8s-fleetman-queue:release2
+---
+# Source: app-prod-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: position-simulator-deployment
+spec:
+  selector:
+    matchLabels:
+      app: position-simulator
+  replicas: 1 
+  template: # template for the pods
+    metadata:
+      labels:
+        app: position-simulator
+    spec:
+      containers:
+      - name: position-simulator-container
+        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+---
+# Source: app-prod-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: position-tracker-deployment
+spec:
+  selector:
+    matchLabels:
+      app: position-tracker
+  replicas: 1 
+  template: # template for the pods
+    metadata:
+      labels:
+        app: position-tracker
+    spec:
+      containers:
+      - name: position-tracker-container
+        image: rrichardchesterwood/k8s-fleetman-position-tracker:release3
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+---
+# Source: app-prod-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  replicas: 1 
+  template: # template for the pods
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway-container
+        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+---
+# Source: app-prod-helm/templates/deploymentall.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 1 
+  template: # template for the pods
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp-container
+        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+---
+# Source: app-prod-helm/templates/mongo.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:3.6.23
+        volumeMounts:
+          - name: mongo-persistent-storage
+            mountPath: /data/db
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mypvc
