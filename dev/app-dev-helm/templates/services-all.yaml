@@ -1,8 +1,8 @@
-# Service pour fleetman-webapp
+# Service pour katarzyna-webapp
 apiVersion: {{ .Values.versionSvc }} # Version de l'API pour le service
 kind: {{ .Values.kindNameSvc }} # Type de ressource, ici un Service
 metadata:
-  name: fleetman-webapp # Nom du service
+  name: katarzyna-webapp # Nom du service
 
 spec:
   selector:
@@ -16,11 +16,11 @@ spec:
   type: {{ .Values.portTypeN }}
 
 ---
-# Service pour fleetman-queue
+# Service pour katarzyna-queue
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-queue
+  name: katarzyna-queue
 
 spec:
   selector:
@@ -29,7 +29,7 @@ spec:
   ports:
     - name: {{ .Values.portName }}
       port: 8160
-      nodePort: 30010
+      nodePort: 30015
 
     - name: endpoint
       port: 61616
@@ -41,7 +41,7 @@ spec:
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-position-tracker
+  name: katarzyna-position-tracker
 
 spec:
   selector:
@@ -58,7 +58,7 @@ spec:
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-api-gateway
+  name: katarzyna-api-gateway
 
 spec:
   selector:

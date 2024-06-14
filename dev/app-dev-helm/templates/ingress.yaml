@@ -10,12 +10,12 @@ spec:
       http:
         path: / # Chemin pour la règle HTTP
           backend:
-            serviceName: fleetman-webapp # Nom du service backend
+            serviceName: katarzyna-webapp # Nom du service backend
             servicePort: 80 # Port du service backend
     - host: queque.domain.com # Hôte pour la deuxième règle
       http:
         path: / # Chemin pour la deuxième règle HTTP
           backend:
-            serviceName: fleetman-webapp # Nom du service backend
+            serviceName: katarzyna-webapp # Nom du service backend
             servicePort: 8161 # Port du service backend
 

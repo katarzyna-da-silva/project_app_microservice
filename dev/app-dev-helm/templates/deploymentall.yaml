@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.appNameQ }}-container  # Nom du conteneur
-        image: {{ .Values.dockerRepoName | default "richardchesterwood" | lower }}/k8s-fleetman-queue:release2  # Image Docker à utiliser
+        image: {{ .Values.dockerRepoName | default "katarzynadasilva"  |  lower }}/queue-katarzyna:tagname # Image Docker à utiliser
         resources:
           requests:
             memory: {{ .Values.resources.containerMemory }}  # Quantité de mémoire demandée
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.appNameS }}-container
-        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-position-simulator:release2
+        image: {{ .Values.dockerRepoName | default "katarzynadasilva"  |  lower }}/katarzyna-position-simulator:tagname
         env:
         - name: {{ .Values.env.envName }}
           value: {{ .Values.env.envValue }}
@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.appNameT }}-container
-        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-position-tracker:release3
+        image: {{ .Values.dockerRepoName | default "katarzynadasilva"  |  lower }}/katarzyna-position-tracker:tagname
         env:
         - name: {{ .Values.env.envName }}
           value: {{ .Values.env.envValue }}
@@ -99,7 +99,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.appNameA }}-container
-        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-api-gateway:release2
+        image: {{ .Values.dockerRepoName | default "katarzynadasilva"  |  lower }}/katarzyna-api-gateway:tagname
         env:
         - name: {{ .Values.env.envName }}
           value: {{ .Values.env.envValue }}
@@ -127,7 +127,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.appNameW }}-container
-        image: {{ .Values.dockerRepoName | default "richardchesterwood"  |  lower }}/k8s-fleetman-webapp-angular:release2
+        image: {{ .Values.dockerRepoName | default "katarzynadasilva"  |  lower }}/katarzyna-webapp:tagname
         env:
         - name: {{ .Values.env.envName }}
           value: {{ .Values.env.envValue }}

@@ -36,7 +36,7 @@ spec:
 kind: {{ .Values.kindNameSvc }}  # Type de ressource, ici un Service
 apiVersion: {{ .Values.versionSvc }}  # Version de l'API pour le service
 metadata:
-  name: fleetman-mongodb  # Nom du service
+  name: katarzyna-mongodb  # Nom du service
 spec:
   selector:
     app: {{ .Values.dbName }}  # Label pour sélectionner les pods

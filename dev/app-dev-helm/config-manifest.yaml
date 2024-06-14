@@ -1,89 +1,83 @@
 ---
 # Source: app-dev-helm/templates/mongodb.yaml
-kind: Service
-apiVersion: v1
+# Configuration pour le service MongoDB
+kind: Service  # Type de ressource, ici un Service
+apiVersion: v1  # Version de l'API pour le service
 metadata:
-  name: fleetman-mongodb
+  name: fleetman-mongodb  # Nom du service
 spec:
   selector:
-    app: mongodb
+    app: mongodb  # Label pour sélectionner les pods
   ports:
-    - name: mongoport
-      port: 27017
-  type: ClusterIP
+    - name: mongoport  # Nom du port
+      port: 27017  # Port exposé par le service
+  type: ClusterIP  # Type du service (ClusterIP, NodePort, LoadBalancer)
 ---
 # Source: app-dev-helm/templates/services-all.yaml
-apiVersion: v1
-kind: Service
+# Service pour fleetman-webapp
+apiVersion: v1 # Version de l'API pour le service
+kind: Service # Type de ressource, ici un Service
 metadata:
-  name: fleetman-webapp
+  name: fleetman-webapp # Nom du service
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
-    app: webapp
+    app: webapp  # Label pour sélectionner les pods
 
-  ports:
+  ports: # Nom du port
     - name:  http
-      port: 80
-      nodePort: 30081
+      port: 80 # Port exposé par le service
+      nodePort: 30081  # NodePort pour l'accès externe (type NodePort requis)
 
   type: NodePort
 ---
 # Source: app-dev-helm/templates/services-all.yaml
+# Service pour fleetman-queue
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-queue
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: queue
 
   ports:
     - name: http
-      port: 8160
-      nodePort: 30010
-
+      port: 8161
+      targetPort: 8161
+      nodePort: 30031
     - name: endpoint
       port: 61616
 
   type: NodePort
 ---
 # Source: app-dev-helm/templates/services-all.yaml
+# Service pour fleetman-position-tracker
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-position-tracker
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: position-tracker
 
   ports:
     - name: http
       port: 8080
-
+     # nodePort: 30022
+ # type: NodePort
   type: ClusterIP
 ---
 # Source: app-dev-helm/templates/services-all.yaml
+# Service pour fleetman-api-gateway
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-api-gateway
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: api-gateway
 
@@ -95,29 +89,33 @@ spec:
   type: NodePort
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
-apiVersion: apps/v1
-kind: Deployment
+# Configuration pour les déploiements Kubernetes
+
+# Définition du premier déploiement
+apiVersion: apps/v1  # Version de l'API Kubernetes
+kind: Deployment  # Type de ressource, par exemple, "Deployment"
 metadata:
-  name: queue-deployment
+  name: queue-deployment # Nom du déploiement
 spec:
   selector:
     matchLabels:
-      app: queue
-  replicas: 1
+      app: queue  # Étiquette utilisée pour sélectionner les pods
+  replicas: 1  # Nombre de réplicas
   template: # template for the pods
     metadata:
       labels:
-        app: queue
+        app: queue  # Étiquette pour les pods
     spec:
       containers:
-      - name: queue-container
-        image: richardchesterwood/k8s-fleetman-queue:release2
+      - name: queue-container  # Nom du conteneur
+        image: katarzynadasilva/queue-katarzyna:tagname # Image Docker à utiliser
         resources:
           requests:
-            memory: 400Mi
-            cpu: 200m
+            memory: 400Mi  # Quantité de mémoire demandée
+            cpu: 200m  # Quantité de CPU demandée
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
+# Définition du deuxième déploiement
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -134,7 +132,7 @@ spec:
     spec:
       containers:
       - name: position-simulator-container
-        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+        image: katarzynadasilva/katarzyna-position-simulator:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -144,6 +142,7 @@ spec:
             cpu: 600m
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
+# Définition du troisième déploiement
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -160,7 +159,7 @@ spec:
     spec:
       containers:
       - name: position-tracker-container
-        image: richardchesterwood/k8s-fleetman-position-tracker:release3
+        image: katarzynadasilva/katarzyna-position-tracker:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -170,6 +169,8 @@ spec:
             cpu: 50m
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
+# Définition du quatrième déploiement
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -186,7 +187,7 @@ spec:
     spec:
       containers:
       - name: api-gateway-container
-        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+        image: katarzynadasilva/katarzyna-api-gateway:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -196,6 +197,7 @@ spec:
             cpu: 50m
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
+# Définition du cinquième déploiement
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -212,7 +214,7 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+        image: katarzynadasilva/katarzyna-webapp:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -222,15 +224,17 @@ spec:
             cpu: 50m
 ---
 # Source: app-dev-helm/templates/mongodb.yaml
-apiVersion: apps/v1
-kind: Deployment
+# Configuration pour le déploiement MongoDB
+
+apiVersion: apps/v1  # Version de l'API pour le déploiement
+kind: Deployment  # Type de ressource, ici un Déploiement
 metadata:
-  name: mongodb-deployment
+  name: mongodb-deployment  # Nom du déploiement
 spec:
   selector:
     matchLabels:
-      app: mongodb
-  replicas: 1
+      app: mongodb  # Label pour sélectionner les pods
+  replicas: 1  # Nombre de réplicas (pods)
   template:
     metadata:
       labels:
@@ -238,10 +242,10 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:3.6.23
+        image: mongo:3.6.23  # Image Docker à utiliser pour le conteneur
         volumeMounts:
-          - name: mongo-persistent-storage
-            mountPath: /data/db
+          - name: mongo-persistent-storage  # Nom du volume monté
+            mountPath: /data/db  # Chemin de montage du volume dans le conteneur
         resources: 
           requests: 
             memory: 400Mi
@@ -250,4 +254,21 @@ spec:
         - name: mongo-persistent-storage
           hostPath:    # données stockées en dehors du pod si kubectl est supprimé
            path: /mnt/some/directory/structure/     # for vm minikube 
-           type: DirectoryOrCreate
+           type: DirectoryOrCreate  # Crée le répertoire s'il n'existe pas
+---
+# Source: app-dev-helm/templates/hpa-autoscaling.yaml
+# Configuration pour l'autoscaler horizontal des pods
+
+apiVersion: autoscaling/v1 # Version de l'API pour lautoscaler horizontal
+kind: HorizontalPodAutoscaler # Type de ressource, ici un autoscaler horizontal
+metadata:
+  name: api-gateway # Nom de lautoscaler
+  namespace: default # Namespace où lautoscaler est déployé
+spec:
+  maxReplicas: 4 # Nombre max de réplicas
+  minReplicas: 1 # Nombre min de réplicas
+  scaleTargetRef:
+    apiVersion: apps/v1 # Version de l'API pour la référence de l'objectif de mise à l'échelle
+    kind: Deployment # Type de ressource à mettre à l'échelle, ici un déploiement
+    name: api-gateway # Nom du déploiement à mettre à l'échelle
+  targetCPUUtilizationPercentage: 400 # Seuil de l'utilisation du CPU pour le déclenchement de la mise à l'échelle
