@@ -20,7 +20,7 @@ jobs:
         run: ./script-kube-update.sh
 
       - name: Verify kubectl installation
-        run: kubectl version --short --client
+        run: kubectl version --short --cli
       
       - name: Set kubectl context
         run: kubectl config use-context dev-eksdemo

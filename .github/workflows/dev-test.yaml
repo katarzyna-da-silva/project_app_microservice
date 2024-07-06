@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 * * * *' # 1h
 
 jobs:
   collect_logs:
@@ -11,13 +13,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4 
+      
+      - name: Check cluster info
+        run: kubectl cluster-info
+      
+      - name: Get nodes in cluster
+        run: kubectl get nodes
+      
+      - name: Get services in cluster
+        run: kubectl get services --all-namespaces
 
-      - name: Get pod logs
+      - name: Get logs from specific pod
+        run: kubectl logs -l app=myapp --all-containers --namespace=default > myapp_logs.txt
+  
+      - name: Get logs from all pods
         run: |
           kubectl get pods --all-namespaces
-          kubectl get pods --namespace=default -o=name | xargs -I{} kubectl logs {} --all-containers --namespace=default >> myapp_logs.txt
+          kubectl logs --all-containers --all-namespaces > all_pods_logs.txt
 
-      - name: Archivei logs
+
+      - name: Archive logs
         uses: actions/upload-artifact@v4
         with:
           name: kubernetes-logs
