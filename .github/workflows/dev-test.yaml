@@ -1,6 +1,11 @@
 name: Dev Setup and Logs Collection
 
 on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *' # Uruchamia co godzinę
   workflow_dispatch:
     inputs:
       aws_region:
