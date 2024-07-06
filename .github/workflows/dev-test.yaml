@@ -15,7 +15,7 @@ jobs:
       - name: Get pod logs
         run: |
           kubectl get pods --all-namespaces
-          kubectl logs -l app=myapp --all-containers --namespace=default > myapp_logs.txt 
+          kubectl get pods --namespace=default -o=name | xargs -I{} kubectl logs {} --all-containers --namespace=default >> myapp_logs.txt
 
       - name: Archivei logs
         uses: actions/upload-artifact@v4
