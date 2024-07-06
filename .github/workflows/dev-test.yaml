@@ -62,4 +62,5 @@ jobs:
           name: kubernetes-logs
           path:
             - logs.txt
+            - allpods.txt
 
