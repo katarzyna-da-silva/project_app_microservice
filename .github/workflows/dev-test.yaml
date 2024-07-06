@@ -8,33 +8,33 @@ on:
         required: true
         default: 'eu-west-3'
 
-  jobs:
-    setup_dev:
-      runs-on: ubuntu-latest
+jobs:
+  setup_dev:
+    runs-on: ubuntu-latest
 
-      steps:
-       - name: Checkout code
-         uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-       - name: Update kubeconfig
-         run: ./script-kube-update.sh
+      - name: Update kubeconfig
+        run: ./script-kube-update.sh
 
-       - name: Verify kubectl installation
-         run: kubectl version --short --cli
+      - name: Verify kubectl installation
+        run: kubectl version --short --cli
 
-       - name: Set kubectl context
-         run: kubectl config use-context dev-eksdemo
+      - name: Set kubectl context
+        run: kubectl config use-context dev-eksdemo
 
-       - name: Run simple kubectl command
-         run: kubectl get pods --all-namespacesi                                                                                                                                                                    
-       - name: Check cluster info
-         run: kubectl cluster-info
+      - name: Run simple kubectl command
+        run: kubectl get pods --all-namespacesi                                                                                                                                                                    
+      - name: Check cluster info
+        run: kubectl cluster-info
       
-       - name: Get nodes in cluster
-         run: kubectl get nodes
+      - name: Get nodes in cluster
+        run: kubectl get nodes
       
-       - name: Get services in cluster
-         run: kubectl get services --all-namespaces
+      - name: Get services in cluster
+        run: kubectl get services --all-namespaces
 
    collect_logs:
      runs-on: ubuntu-latest
