@@ -18,7 +18,7 @@ jobs:
       - name: Update kubeconfig
         run: ./script-kube-update.sh
 
-      - name: Verify kubectl installation
+      - name: Verify kubectl install
         run: kubectl version --short --client
 
       - name: Set kubectl context
