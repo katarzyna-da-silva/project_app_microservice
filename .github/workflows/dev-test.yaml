@@ -34,7 +34,7 @@ jobs:
       - name: Get disk usage information
         run: |
           df -h > disk_space_info.txt
-          du -h --max-depth=1 / > disk_usage_info.txt
+          sudo du -h --max-depth=1 / > disk_usage_info.txt
 
       - name: Upload artifact with disk logs
         uses: actions/upload-artifact@v2
