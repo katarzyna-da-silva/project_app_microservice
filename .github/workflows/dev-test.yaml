@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name : eks_terraform_setup.sh exec
-        run: chmod +x eks_terraform_setup.sh 
+        run: chmod +x ./scripts/eks_terraform_setup.sh 
 
       - name: Update kubeconfig
         run: ./scripts/eks_terraform_setup.sh
