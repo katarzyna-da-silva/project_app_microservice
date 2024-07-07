@@ -22,8 +22,8 @@ jobs:
 
       - name: Make eks_terraform_setup.sh executable
         run: chmod +x ./scripts/eks_terraform_setup.sh
-      
-      i- name: Update kubeconfig
+
+      - name: Update kubeconfig
         run: ./scripts/eks_terraform_setup.sh
 
       - name: Run simple kubectl command
@@ -53,13 +53,11 @@ jobs:
           kubectl get pods --all-namespaces
           kubectl logs --all-containers --all-namespaces > all_pods_logs.txt
 
-      - name: Archive log
+      - name: Archive logs
         uses: actions/upload-artifact@v4
         with:
           name: kubernetes-logs
           paths:
-              - myapp_logs.txt
-              - all_pods_logs.txt
-
-
+            - myapp_logs.txt
+            - all_pods_logs.txt
 
