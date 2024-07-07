@@ -11,20 +11,6 @@ kubectl version --short --client
 sudo apt-get update
 sudo apt-get install -y unzip
 
-# terraform
-echo "Install  Terraform..."
-wget https://releases.hashicorp.com/terraform/1.9.1/terraform_1.9.1_linux_amd64.zip
-unzip terraform_1.9.1_linux_amd64.zip
-sudo mv terraform /usr/local/bin/
-terraform version
-
-# terraform apply
-echo "exec terraform apply..."
-cd ~/project_app_microservice/terraform 
-terraform init 
-terraform apply -auto-approve
-
-
 # Install kubectl
 sudo snap install kubectl --classic
 
