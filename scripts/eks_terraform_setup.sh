@@ -12,9 +12,10 @@ sudo apt-get install -y unzip
 
 #update kubeconfig pour EKS
 
-aws eks --region eu-west-3 update-kubeconfig --name dev-eksdemo
+kubectl config use-context dev-eksdemo
+kubectl config current-context
 
-sleep 20
+sleep 10
 
 #Test connextion
 echo "connexion ok..."
