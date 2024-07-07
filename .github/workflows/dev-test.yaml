@@ -26,7 +26,7 @@ jobs:
       - name: Update kubeconfig
         run: ./scripts/eks_terraform_setup.sh
 
-    collect_logs:
+  collect_logs:
     runs-on: ubuntu-latest
     needs: setup_dev
     steps:
