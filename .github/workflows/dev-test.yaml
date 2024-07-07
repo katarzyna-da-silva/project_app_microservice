@@ -26,11 +26,4 @@ jobs:
       - name: Update kubeconfig
         run: ./scripts/eks_terraform_setup.sh
 
-      - name: Check cluster info
-        run: kubectl cluster-info
-
-      - name: Get nodes in cluster
-        run: kubectl get nodes
-
-      - name: Get services in cluster
-        run: kubectl get services --all-namespaces
+      
