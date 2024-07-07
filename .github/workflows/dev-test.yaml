@@ -31,10 +31,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Get disk usage information
+       - name: Get disk space information using df
+        run: df -h > disk_space_info.txt
+
+      - name: Get disk usage information using sudo du
         run: |
-          df -h > disk_space_info.txt
           sudo du -h --max-depth=1 / > disk_usage_info.txt
+        shell: bash
 
       - name: Upload artifact with disk logs
         uses: actions/upload-artifact@v2
