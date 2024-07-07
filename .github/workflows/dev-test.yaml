@@ -32,12 +32,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
       - name: Get Kubectl Version
         run: |
           kubectl version --client > kubectl_version.txt
-
-      - name: Check Kubernetes Cluster Info
-        run: kubectl cluster-info > cluster_info.txt
 
       - name: Archive Artifacts
         uses: actions/upload-artifact@v4
@@ -45,6 +43,6 @@ jobs:
           name: devops-artifact
           paths:
             - kubectl_version.txt
-            - cluster_info.txt
+
 
       
