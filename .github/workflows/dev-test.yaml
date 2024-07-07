@@ -31,7 +31,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-       - name: Get disk space information using df
+      - name: Get disk space information using df
         run: df -h > disk_space_info.txt
 
       - name: Get disk usage information using sudo du
