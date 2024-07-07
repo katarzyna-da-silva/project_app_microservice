@@ -37,7 +37,7 @@ jobs:
       - name: Get disk usage information using sudo du
         run: |
           sudo du -h --max-depth=1 / > disk_usage_info.txt
-        shell: bash
+        shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
 
       - name: Upload artifact with disk logs
         uses: actions/upload-artifact@v2
