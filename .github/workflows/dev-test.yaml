@@ -20,8 +20,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name : eks_terraform_setup.sh exec
-        run: chmod +x ./scripts/eks_terraform_setup.sh 
+      - name: Make eks_terraform_setup.sh executable
+        run: chmod +x ./scripts/eks_terraform_setup.sh
 
       - name: Install kubectl
         run: |
