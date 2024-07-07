@@ -31,15 +31,6 @@ jobs:
           sudo mv ./kubectl /usr/local/bin/kubectl
           kubectl version --client
 
-      - name: Install unzip
-        run: |
-          echo "Install unzip..."
-          sudo apt-get update
-          sudo apt-get install -y unzip
-
-      - name: Run eks_terraform_setup.sh
-        run: ./scripts/eks_terraform_setup.sh
-
       - name: Set kubectl context
         run: kubectl config use-context arn:aws:eks:eu-west-3:905418021277:cluster/dev-eksdemo
 
