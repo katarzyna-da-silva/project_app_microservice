@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-            - name: Get Kubectl Version
+      - name: Get Kubectl Version
         run: |
           kubectl version --client > kubectl_version.txt
 
