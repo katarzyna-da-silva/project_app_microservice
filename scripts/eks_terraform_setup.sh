@@ -10,9 +10,6 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 sudo apt-get update
 sudo apt-get install -y unzip
 
-# Install kubectl
-sudo snap install kubectl --classic
-
 #update kubeconfig pour EKS
 
 aws eks --region eu-west-3 update-kubeconfig --name dev-eksdemo
