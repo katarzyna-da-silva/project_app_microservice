@@ -32,22 +32,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      
-      - name: Get system logs
+            - name: Get Kubectl Version
         run: |
-          journalctl --no-pager -o short-precise > system_logs.txt
-          dmesg --ctime > kernel_logs.txt
+          kubectl version --client > kubectl_version.txt
 
-      - name: Get Docker logs
-        run: |
-          docker ps -a  > docker_logs.txt
+      - name: Check Kubernetes Cluster Info
+        run: kubectl cluster-info > cluster_info.txt
 
-      - name: Archive logs
+      - name: Archive Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: system-logs
+          name: devops-artifact
           paths:
-            - system_logs.txt
-            - kernel_logs.txt
-            - docker_logs.txt
+            - kubectl_version.txt
+            - cluster_info.txt
+
+      
