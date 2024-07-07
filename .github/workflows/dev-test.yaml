@@ -41,13 +41,7 @@ jobs:
 
       - name: Get Docker logs
         run: |
-          docker ps -a
-          docker logs <container_id> > docker_logs.txt
-
-      - name: Get Kubernetes logs
-        run: |
-          kubectl get pods --all-namespaces
-          kubectl logs --all-containers --all-namespaces > kubernetes_logs.txt
+          docker ps -a  > docker_logs.txt
 
       - name: Archive logs
         uses: actions/upload-artifact@v4
@@ -57,4 +51,3 @@ jobs:
             - system_logs.txt
             - kernel_logs.txt
             - docker_logs.txt
-            - kubernetes_logs.txt
