@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 * * * *' # Uruchamia co godzinę
   workflow_dispatch:
     inputs:
       aws_region:
@@ -33,16 +31,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Get Kubectl Version
+      - name: Get disk usage information
         run: |
-          kubectl version --client > kubectl_version.txt
+          df -h > disk_space_info.txt
+          du -h --max-depth=1 / > disk_usage_info.txt
 
-      - name: Archive Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload artifact with disk logs
+        uses: actions/upload-artifact@v2
         with:
-          name: devops-artifact
-          paths:
-            - kubectl_version.txt
-
-
-      
+          name: disk-logs
+          path: |
+            disk_space_info.txt
+            disk_usage_info.txt 
