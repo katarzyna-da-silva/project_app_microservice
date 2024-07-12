@@ -5,7 +5,7 @@ kind: Service  # Type de ressource, ici un Service
 apiVersion: v1  # Version de l'API pour le service
 metadata:
   name: fleetman-mongodb  # Nom du service  
-  namespace: app
+
 spec:
   selector:
     app: mongodb  # Label pour sélectionner les pods
@@ -20,7 +20,7 @@ apiVersion: v1 # Version de l'API pour le service
 kind: Service # Type de ressource, ici un Service
 metadata:
   name: fleetman-webapp # Nom du service
-  namespace: app
+
 spec:
   selector:
     app: webapp  # Label pour sélectionner les pods
@@ -59,7 +59,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-position-tracker
-  namespace: app
+
 spec:
   selector:
     app: position-tracker
@@ -97,7 +97,7 @@ apiVersion: apps/v1  # Version de l'API Kubernetes
 kind: Deployment  # Type de ressource, par exemple, "Deployment"
 metadata:
   name: queue-deployment # Nom du déploiement   
-  namespace: app
+
 spec:
   selector:
     matchLabels:
@@ -122,7 +122,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: position-simulator-deployment
-  namespace: app
+
 spec:
   selector:
     matchLabels:
@@ -150,7 +150,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: position-tracker-deployment
-  namespace: app
+
 spec:
   selector:
     matchLabels:
@@ -179,7 +179,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway-deployment
-  namespace: app
+
 spec:
   selector:
     matchLabels:
@@ -207,7 +207,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment
-  namespace: app
+  
 spec:
   selector:
     matchLabels:
