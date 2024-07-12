@@ -12,4 +12,4 @@ try:
         print(f"Error output: {result.stderr.strip()}")
 
 except Exception as e:
-    print(f"An eror occurred: {e}")
+    print(f"An erorr occurred: {e}")
