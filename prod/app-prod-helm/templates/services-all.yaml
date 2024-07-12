@@ -1,8 +1,8 @@
-# Service pour fleetman-webapp
+# Service pour webapp
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-webapp
+  name: katarzyna-webapp
 
 spec:
   selector:
@@ -15,11 +15,11 @@ spec:
 
 ---
 
-# Service pour fleetman-queue
+# Service pour queue
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-queue
+  name: katarzyna-queue
 
 spec:
   selector:
@@ -37,11 +37,11 @@ spec:
 
 ---
 
-# Service pour fleetman-position-tracker
+# Service pour position-tracker
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-position-tracker
+  name: katarzyna-position-tracker
 
 spec:
   selector:
@@ -55,11 +55,11 @@ spec:
 
 ---
 
-# Service pour fleetman-api-gateway
+# Service pour api-gateway
 apiVersion: {{ .Values.versionSvc }}
 kind: {{ .Values.kindNameSvc }}
 metadata:
-  name: fleetman-api-gateway
+  name: katarzyna-api-gateway
 
 spec:
   selector:

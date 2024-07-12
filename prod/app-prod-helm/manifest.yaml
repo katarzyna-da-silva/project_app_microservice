@@ -1,5 +1,6 @@
 ---
 # Source: app-prod-helm/templates/storage.yaml
+# StorageClass pour stockage SSD dans le cloud
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -9,6 +10,7 @@ parameters:
   type: gp2
 ---
 # Source: app-prod-helm/templates/storage.yaml
+# PersistentVolumeClaim pour stockage de données MongoDB
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -22,6 +24,7 @@ spec:
       storage: 8Gi
 ---
 # Source: app-prod-helm/templates/mongo.yaml
+# service pour MongoDB
 apiVersion: v1
 kind: Service
 metadata:
@@ -35,15 +38,13 @@ spec:
   type: ClusterIP
 ---
 # Source: app-prod-helm/templates/services-all.yaml
+# Service pour webapp
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-webapp
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: webapp
 
@@ -51,17 +52,16 @@ spec:
     - name: http
       port: 80
   type: LoadBalancer
+  
 ---
 # Source: app-prod-helm/templates/services-all.yaml
+# Service pour queue
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-queue
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: queue
 
@@ -73,17 +73,16 @@ spec:
       port: 61616
 
   type: ClusterIP
+ 
 ---
 # Source: app-prod-helm/templates/services-all.yaml
+# Service pour position-tracker
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-position-tracker
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: position-tracker
 
@@ -94,25 +93,24 @@ spec:
   type: ClusterIP
 ---
 # Source: app-prod-helm/templates/services-all.yaml
+# Service pour api-gateway
 apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-api-gateway
 
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
     app: api-gateway
 
   ports:
-    - name: http
+   - name: http
       port: 8080
 
   type: ClusterIP
 ---
 # Source: app-prod-helm/templates/deploymentall.yaml
+# déploiement pour le service Queue
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -129,9 +127,10 @@ spec:
     spec:
       containers:
       - name: queue-container
-        image: richardchesterwood/k8s-fleetman-queue:release2
+        image: katarzynadasilva/queue-katarzyna:tagname
 ---
 # Source: app-prod-helm/templates/deploymentall.yaml
+# déploiement pour le service Position Simulator
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -148,12 +147,13 @@ spec:
     spec:
       containers:
       - name: position-simulator-container
-        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+        image: katarzynadasilva/katarzyna-position-simulator:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
 ---
 # Source: app-prod-helm/templates/deploymentall.yaml
+# déploiement pour le service Position Tracker
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -170,12 +170,13 @@ spec:
     spec:
       containers:
       - name: position-tracker-container
-        image: rrichardchesterwood/k8s-fleetman-position-tracker:release3
+        image: katarzynadasilva/katarzyna-position-tracker:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
 ---
 # Source: app-prod-helm/templates/deploymentall.yaml
+# déploiement pour le service API Gateway
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -192,12 +193,13 @@ spec:
     spec:
       containers:
       - name: api-gateway-container
-        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+        image: katarzynadasilva/katarzyna-api-gateway:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
 ---
 # Source: app-prod-helm/templates/deploymentall.yaml
+# déploiement pour le service Webapp
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -214,12 +216,13 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+        image: katarzynadasilva/katarzyna-webapp:tagname
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
 ---
 # Source: app-prod-helm/templates/mongo.yaml
+# déploiement pour MongoDB
 apiVersion: apps/v1
 kind: Deployment
 metadata:

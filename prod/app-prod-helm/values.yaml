@@ -1,4 +1,4 @@
-dockerRepoName: richardchesterwood
+dockerRepoName: katarzynadasilva
 appVersion: apps/v1
 kindName: Deployment
 replicaCount: 1

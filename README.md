@@ -223,3 +223,5 @@ Install the Helm chart using the helm install command:
 helm install <release_name> <chart_name> --namespace <namespace> --values <values_file>
 
 helm list -n <namespace>
+
+helm upgrade app-prod-helm . --values **config-manifest.yaml
