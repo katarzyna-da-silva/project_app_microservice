@@ -12,4 +12,4 @@ spec:
     apiVersion: apps/v1 # Version de l'API pour la référence de l'objectif de mise à l'échelle
     kind: Deployment # Type de ressource à mettre à l'échelle, ici un déploiement
     name: api-gateway # Nom du déploiement à mettre à l'échelle
-  targetCPUUtilizationPercentage: 400 # Seuil de l'utilisation du CPU pour le déclenchement de la mise à l'échelle
+  targetCPUUtilizationPercentage: 50 # Seuil de l'utilisation du CPU pour le déclenchement de la mise à l'échelle

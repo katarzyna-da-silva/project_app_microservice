@@ -262,7 +262,7 @@ spec:
 apiVersion: autoscaling/v1 # Version de l'API pour lautoscaler horizontal
 kind: HorizontalPodAutoscaler # Type de ressource, ici un autoscaler horizontal
 metadata:
-  name: api-gateway # Nom de lautoscaler
+  name: api-gateway-deployment # Nom de lautoscaler # Nom de lautoscaler
   namespace: default # Namespace où lautoscaler est déployé
 spec:
   maxReplicas: 4 # Nombre max de réplicas
