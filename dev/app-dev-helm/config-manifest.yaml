@@ -38,7 +38,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fleetman-queue
-  namespace: app
 spec:
   selector:
     app: queue
@@ -47,7 +46,7 @@ spec:
     - name: http
       port: 8161
       targetPort: 8161
-      nodePort: 30031
+      nodePort: 30035
     - name: endpoint
       port: 61616
 
@@ -67,9 +66,9 @@ spec:
   ports:
     - name: http
       port: 8080
-     # nodePort: 30022
- # type: NodePort
-  type: ClusterIP
+      nodePort: 30022
+  type: NodePort
+  #type: ClusterIP
 ---
 # Source: app-dev-helm/templates/services-all.yaml
 # Service pour fleetman-api-gateway
@@ -236,7 +235,6 @@ apiVersion: apps/v1  # Version de l'API pour le déploiement
 kind: Deployment  # Type de ressource, ici un Déploiement
 metadata:
   name: mongodb-deployment  # Nom du déploiement
-  namespace: app
 spec:
   selector:
     matchLabels:
