@@ -19,10 +19,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Make eks_terraform_setup.sh executable
-        run: chmod +x ./home/z390/Bureau/project_app_microservice/dev/scripts/eks_terraform_setup.sh
+        run: chmod +x ./dev/scripts/eks_terraform_setup.sh
 
       - name: Update kubeconfig
-        run: ./home/z390/Bureau/project_app_microservice/dev/scripts/eks_terraform_setup.sh
+        run: ./dev/scripts/eks_terraform_setup.sh
 
   collect_logs:
     runs-on: ubuntu-latest
