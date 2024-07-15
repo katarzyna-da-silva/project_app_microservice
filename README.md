@@ -1,4 +1,4 @@
-## Vehicle Tracking Microservices Application Deployment
+## Vehicle Tracking - Microservices Application - Deployment
 
 ***This project aims to deploy a microservices application for vehicle tracking in the AWS cloud. It leverages various technologies such as Kubernetes, Docker, Terraform, Prometheus Grafana, Alert Manager, horizontal scaling, readiness, and CI/CD with Helm.***
 
@@ -9,7 +9,7 @@
 
 ### Clone the repository:
 - git clone git@github.com:katarzyna-da-silva/project_app_microservice.git
-- cd app_microservices
+- cd project_app_microservices
 
 ### Create Kubernetes deployment:
 
@@ -51,8 +51,6 @@ After configuring the AWS profile, run :
 aws sts get-caller-identity --profile my_profile
 
 - Set up your AWS credentials by configuring the ~/.aws/credentials file or using environment variables.
-
-***if necessary, add permissions for the ./.aws/credentials file: chmod a+x credentiales***
 
 
 ### Terraform Deployment
@@ -167,6 +165,7 @@ https://github.com/kubernetes/kubernetes/tree/master/cluster/addons
 kubectl apply -f fluentd-daemonset.yaml
 kubectl apply -f elasticsearch-statefulset.yaml
 kubectl apply -f kibana-deployment.yaml
+
 * Access Kibana DashBoard :  kubectl get svc -n kube-system
 
 ## Prometheus and grafana installation:
@@ -183,7 +182,7 @@ kubectl edit svc -n monitoring monitoring-kube-prometheus-prometheus edit file m
 
 - Installing slack for alerts
 
-Create Incoming Webhook in Slack:
+Create Webhook in Slack:
 Log in to your Slack workspace.
 Navigate to "Apps" and search for "Incoming Webhooks".
 Click on "Add to Slack" and choose the channel where you want to receive alerts.
