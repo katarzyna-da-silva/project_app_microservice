@@ -14,3 +14,5 @@ module "ec2_public" {
   vpc_security_group_ids = [module.public_bastion_sg.security_group_id]
   tags = local.common_tags
 }
+
+// creation instance / source / version / fichier : local values pour variables /  keypair ssh // definition pour vpc 

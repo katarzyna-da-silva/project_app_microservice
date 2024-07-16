@@ -1,4 +1,4 @@
-# Create IAM Role
+# Create IAM Role for eks cluster // add role 
 resource "aws_iam_role" "eks_master_role" {
   name = "${local.name}-eks-master-role"
 
@@ -19,7 +19,7 @@ resource "aws_iam_role" "eks_master_role" {
 POLICY
 }
 
-# Associate IAM Policy to IAM Role
+# IAM Role
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"

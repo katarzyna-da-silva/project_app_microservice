@@ -27,3 +27,6 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
   ]
 }
+
+
+// definition ressource pour cluster , definition pour vpc pour cluster ec2, cidr pour allocation ip pour eks,  cluster-logs-type pour gere cluster

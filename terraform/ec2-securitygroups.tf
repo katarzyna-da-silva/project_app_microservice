@@ -7,7 +7,7 @@ module "public_bastion_sg" {
   version = "5.1.0"  
 
   name = "${local.name}-public-bastion-sg"
-  description = "Security Group with SSH port open for everybody (IPv4 CIDR), egress ports are all world open"
+  description = "Security Group with SSH port open"
   vpc_id = module.vpc.vpc_id
   # Ingress Rules & CIDR Blocks
   ingress_rules = ["ssh-tcp"]
@@ -16,3 +16,5 @@ module "public_bastion_sg" {
   egress_rules = ["all-all"]
   tags = local.common_tags
 }
+
+// definition module pour securite group , le regle ajoutee pour port 22 est ouvert, entree et sorti sont ouvert pour tous

@@ -33,3 +33,6 @@ variable "cluster_endpoint_public_access_cidrs" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+
+// null = variable pas encore utilise ! 

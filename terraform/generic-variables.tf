@@ -11,3 +11,6 @@ variable "environment" {
   type = string
   default = "dev"
 }
+
+
+// variables pour region et env

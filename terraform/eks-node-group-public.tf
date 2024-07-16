@@ -91,3 +91,7 @@ resource "aws_eks_node_group" "eks_ng_public_3" {
     Name = "Public-Node-Group-3"
   }
 }
+
+
+
+// definition pour groupe node dans eks + iam + subnets + rolearn + mis a echelle pour 1-2, depends on , iam est cree avant nodes, cest pour 3 nodes 
