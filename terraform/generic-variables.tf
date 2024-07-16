@@ -1,16 +1,13 @@
-# Input Variables
+# Variables
 # AWS Region
 variable "aws_region" {
-  description = "Region in which AWS Resources to be created"
+  description = "Region for aws"
   type = string
   default = "eu-west-3"  
 }
-# Environment Variable
+# Environment Variable DEV
 variable "environment" {
-  description = "Environment Variable used as a prefix"
+  description = "Environment"
   type = string
   default = "dev"
 }
-
-
-// variables pour region et env

@@ -1,4 +1,3 @@
-# AWS EC2 Instance Terraform Variables
 # EC2 Instance Variables
 # AWS EC2 Instance Type
 variable "instance_type" {
@@ -14,4 +13,5 @@ variable "instance_keypair" {
   default = "eks-terraform"
 }
 
-// variables pour ec2 t3micro - petit instance elastique, pour teste et petit app  // nom cle
+# variables pour ec2 t3micro - petit instance elastique,
+# pour teste et petit app  // connection, avec cle

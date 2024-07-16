@@ -1,16 +1,17 @@
-# EKS Cluster Input Variables
+# EKS Cluster Variables
+# name cluster
 variable "cluster_name" {
-  description = "Name of the EKS cluster. Also used as a prefix in names of related resources."
+  description = "Name of the EKS cluster."
   type        = string
   default     = "eksdemo"
 }
-
+# use cidr for cluster default 
 variable "cluster_service_ipv4_cidr" {
   description = "service ipv4 cidr for the kubernetes cluster"
   type        = string
   default     = null
 }
-
+# cluster version default 
 variable "cluster_version" {
   description = "Kubernetes minor version to use for the EKS cluster"
   type = string

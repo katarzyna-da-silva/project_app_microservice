@@ -1,20 +1,21 @@
 # AWS EC2 Security Group Terraform Module
-# Security Group for Public Bastion Host
-module "public_bastion_sg" {
-  source  = "terraform-aws-modules/security-group/aws"
-  #version = "4.5.0"
-  #version = "4.17.2"  
-  version = "5.1.0"  
 
+# locates the module from the terraform-aws-modules repository
+module "public_bastion_sg" {
+  source  = "terraform-aws-modules/security-group/aws" 
+  version = "5.1.0"  
+# add name for module, desc, and add vpc
   name = "${local.name}-public-bastion-sg"
   description = "Security Group with SSH port open"
   vpc_id = module.vpc.vpc_id
-  # Ingress Rules & CIDR Blocks
+  # Ingress Rules & CIDR Blocks   accepts incoming traffic via SSH port (22) for TCP.
   ingress_rules = ["ssh-tcp"]
+  # Allows access to the SSH port from any IP address on the Internet (open access)
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  # Egress Rule - all-all open
+  # allows you to get in and out from anywhere with any IP to connect to
   egress_rules = ["all-all"]
   tags = local.common_tags
 }
 
-// definition module pour securite group , le regle ajoutee pour port 22 est ouvert, entree et sorti sont ouvert pour tous
+# jump box - bastion host security practice,
+# in public EC2 you can run private services to which no one has access

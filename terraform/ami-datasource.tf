@@ -19,5 +19,3 @@ data "aws_ami" "amzlinux2" {
     values = [ "x86_64" ]
   }
 }
-
- //  Add images for exec ec2

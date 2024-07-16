@@ -1,4 +1,4 @@
-# deifinition pour connection avec provider 
+# connection with aws
 terraform {
   required_version = ">= 1.6.0"
   required_providers {
@@ -10,7 +10,6 @@ terraform {
   }
 }
 
-# Terraform Provider Block
 provider "aws" {
   region = var.aws_region
 }

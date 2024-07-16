@@ -1,4 +1,4 @@
-# VPC Output Values
+# VPC Output Values -  to be used for other configurations
 
 # VPC ID
 output "vpc_id" {
@@ -30,7 +30,7 @@ output "nat_public_ips" {
   value       = module.vpc.nat_public_ips
 }
 
-# VPC AZs
+# VPC AZs - eu-west-3 par example 
 output "azs" {
   description = "A list of availability zones spefified as argument to this module"
   value       = module.vpc.azs

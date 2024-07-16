@@ -1,32 +1,28 @@
-# CREATE AWS CLUSTER EKS 
-# PERMISSION IAM ROLE , CREATED AND DELETED AFTER EKS 
+# creating cluster in aws
+
 resource "aws_eks_cluster" "eks_cluster" {
   name = "${local.name}-${var.cluster_name}"       #name cluster 
-  role_arn = aws_iam_role.eks_master_role.arn  # access for cluster 
-  #version = var.cluster_version
-
-
+  role_arn = aws_iam_role.eks_master_role.arn  # access for cluster arn identite in aws
+ 
+# adding public and private networks defined in vpc files
   vpc_config {
     subnet_ids = module.vpc.public_subnets
     endpoint_private_access = var.cluster_endpoint_private_access
     endpoint_public_access  = var.cluster_endpoint_public_access
     public_access_cidrs     = var.cluster_endpoint_public_access_cidrs    
   }
-
+# adding ip via cidr avec vpc files
   kubernetes_network_config {
     service_ipv4_cidr = var.cluster_service_ipv4_cidr
   }
 
-  # enabled eks cluster control plane logging 
+  # adding additions to the control that manages the cluster, in order to monitor how the cluster works
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
-  # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
-  # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
+# starting the cluster depends on these policies:
+# cluster management policy and resource management, security groups
   depends_on = [
     aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
   ]
 }
-
-
-// definition ressource pour cluster , definition pour vpc pour cluster ec2, cidr pour allocation ip pour eks,  cluster-logs-type pour gere cluster
