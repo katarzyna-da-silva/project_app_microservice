@@ -197,8 +197,8 @@ spec:
           value: production-microservice
         resources:
           requests:
-            memory: 1000Mi
-            cpu: 50m
+            memory: 400Mi
+            cpu: 100m
 ---
 # Source: app-dev-helm/templates/deploymentall.yaml
 # Définition du cinquième déploiement

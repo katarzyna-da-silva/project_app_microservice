@@ -1,6 +1,6 @@
 ## Vehicle Tracking - Microservices Application - Deployment
 
-***This project aims to deploy a microservices application for vehicle tracking in the AWS cloud. It leverages various technologies such as Kubernetes, Docker, Terraform, Prometheus Grafana, Alert Manager, horizontal scaling, readiness, and CI/CD with Helm.***
+***This project aims to deploy a microservices application for vehicle tracking in the AWS cloud. It leverages various technologies such as Kubernetes, Docker, Terraform, Prometheus Grafana, Alert Manager, horizontal scaling and CI/CD with Helm.***
 
 
 # Getting Started
@@ -23,8 +23,6 @@ kubectl get all ( service - ports )
 ip:port
 
 ````
-
-prod : 
 
 ### AWS 
 Setting Up AWS Connection: 
@@ -162,13 +160,17 @@ aws eks describe-cluster --name your_cluster_name --query "cluster.identity.oidc
 
 https://github.com/kubernetes/kubernetes/tree/master/cluster/addons
 
-kubectl apply -f fluentd-daemonset.yaml
-kubectl apply -f elasticsearch-statefulset.yaml
-kubectl apply -f kibana-deployment.yaml
+kubectl apply -f eks-monitoring.yaml fluentd-config.yaml
 
 * Access Kibana DashBoard :  kubectl get svc -n kube-system
 
 ## Prometheus and grafana installation:
+
+https://github.com/helm/charts/tree/master/stable/prometheus-operator
+
+kubectl apply -f for : 
+eks_monitoring.yaml
+crds.yaml
 
 kubectl get po -n monitoring
 kubectl get svc -n monitoring
